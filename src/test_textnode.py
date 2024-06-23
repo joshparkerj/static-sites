@@ -49,6 +49,48 @@ class TestTextNode(TestCase):
  def invalid_type(self):
   node = TextNode('this is a div', 'div')
   self.assertRaises(Exception, node.to_html_node)
+ # now testing split
+ def test_split_bold_zero(self):
+  node = TextNode('this is text', 'text')
+  splitted = node.split_on_delimiter('*', 'bold')
+  self.assertEqual(len(splitted), 1)
+  self.assertEqual(''.join(x.to_html_node().to_html() for x in splitted), 'this is text')
+ def test_split_bold_one(self):
+     node = TextNode('this is *text', 'text')
+     self.assertRaises(Exception, node.split_on_delimiter, '*', 'bold')
+ def test_split_bold_two_edge(self):
+     node = TextNode('this is *text*', 'text')
+     splitted = node.split_on_delimiter('*', 'bold')
+     self.assertEqual(len(splitted), 3)
+     self.assertEqual(''.join(x.to_html_node().to_html() for x in splitted), 'this is <b>text</b>')
+ def text_split_bold_two_mid(self):
+     node = TextNode('this *is* text', 'text')
+     splitted = node.split_on_delimiter('*', 'bold')
+     self.assertEqual(len(splitted), 3)
+     self.assertEqual(''.join(x.to_html_node().to_html() for x in splitted), 'this <b>is</b> text')
+ def text_split_bold_two_start(self):
+     node = TextNode('*this is* text', 'text')
+     splitted = node.split_on_delimiter('*', 'bold')
+     self.assertEqual(len(splitted), 3)
+     self.assertEqual(''.join(x.to_html_node().to_html() for x in splitted), '<b>this is</b> text')
+ def text_split_bold_three(self):
+     node = TextNode('this *is *text*', 'text')
+     self.assertRaises(Exception, node.split_on_delimiter, '*', 'bold')
+ def text_split_bold_four(self):
+     node = TextNode('th*is* is *te*xt', 'text')
+     splitted = node.split_on_delimiter('*', 'bold')
+     self.assertEqual(len(splitted), 5)
+     self.assertEqual(''.join(x.to_html_node().to_html() for x in splitted), 'th<b>is</b> is <b>te</b>xt')
+ def text_split_italic_six(self):
+     node = TextNode('this **is** my **very** elegant **text!**', 'text')
+     splitted = node.split_on_delimiter('**', 'italic')
+     self.assertEqual(len(splitted), 7)
+     self.assertEqual(''.join(x.to_html_node().to_html() for x in splitted), 'this <i>is</i> my <i>very</i> elegant <i>text!</i>')
+ def text_split_code_four(self):
+     node = TextNode('`this is code can\'t you tell?` now here is my non-code prose... `(code again)`', 'text')
+     splitted = node.split_on_delimiter('`', 'code')
+     self.assertEqual(len(splitted), 5)
+     self.assertEqual(''.join(x.to_html_node().to_html() for x in splitted), '<code>this is code can\'t you tell?</code> now here is my non-code prose... <code>(code again)</code>')
  
 if __name__ == '__main__':
  main()

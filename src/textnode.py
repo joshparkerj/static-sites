@@ -19,7 +19,7 @@ class TextNode:
   return f'TextNode({self.text}, {self.text_type}, {self.url})'
 
  def to_html_node(self):
-     if not self.text_type in self.valid_types:
+     if self.text_type not in self.valid_types:
          raise Exception(f'invalid type! valid types are: {self.valid_types}')
      if self.text_type == 'text':
          return LeafNode(self.text)
@@ -33,4 +33,13 @@ class TextNode:
          return LeafNode(self.text, 'a', { 'href': self.url })
      if self.text_type == 'image':
          return LeafNode('', 'img', { 'src': self.url, 'alt': self.text })
+
+ def split_on_delimiter(self, delimiter, text_type):
+     if self.text_type != 'text':
+         return [self]
+     nodes = self.text.split(delimiter)
+     if len(nodes) % 2 != 1:
+         raise Exception('invalid Markdown syntax')
+     return [TextNode(node, 'text' if i % 2 == 0 else text_type) for i, node in enumerate(nodes)]
+      
 
