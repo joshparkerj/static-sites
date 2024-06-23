@@ -70,6 +70,14 @@ class TestParentNode(TestCase):
             LeafNode('buffalo', 'span')
         ], 'div', {'class': 'highlight finished declaration'})
         self.assertEqual(node.to_html(), '<div class="highlight finished declaration"><div><div><span>elephant</span><span>finch</span></div><span>duck</span></div><span>alligator</span><div><span>crocodile</span></div><span>buffalo</span></div>')
+    def test_text_children(self):
+        node = ParentNode([
+            LeafNode('what the'),
+            LeafNode('hammer'),
+            LeafNode('what the'),
+            LeafNode('chain')
+        ], 'div')
+        self.assertEqual(node.to_html(), '<div>what thehammerwhat thechain</div>')
 
 if __name__ == '__main__':
     main()
