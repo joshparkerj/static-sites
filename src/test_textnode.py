@@ -46,6 +46,9 @@ class TestTextNode(TestCase):
  def test_image(self):
   node = TextNode('this is an image', 'image', 'https://www.crummy.com/software/BeautifulSoup/10.1.jpg')
   self.assertEqual(node.to_html_node().to_html(), '<img src="https://www.crummy.com/software/BeautifulSoup/10.1.jpg" alt="this is an image"></img>')
+ def invalid_type(self):
+  node = TextNode('this is a div', 'div')
+  self.assertRaises(Exception, node.to_html_node)
  
 if __name__ == '__main__':
  main()
