@@ -1,6 +1,6 @@
 from unittest import TestCase, main
 
-from markdownhelper import markdown_to_html_node
+from markdownhelper import markdown_to_html_node, extract_title
 
         
 markdown = '''
@@ -108,6 +108,14 @@ class TestMarkdownHelper(TestCase):
         node = markdown_to_html_node(markdown)
         self.maxDiff = None
         self.assertEqual(node.to_html(), expected_html)
+    def test_paragraph_link(self):
+        node = markdown_to_html_node('[Back Home](/)')
+        self.assertEqual(node.to_html(), '<div><p><a href="/">Back Home</a></p></div>')
+    def test_extract_title(self):
+        self.assertEqual(extract_title(markdown), 'This is a heading')
+    def test_no_title(self):
+        self.assertRaises(Exception, extract_title, '')
+
 
 if __name__ == '__main__':
     main()

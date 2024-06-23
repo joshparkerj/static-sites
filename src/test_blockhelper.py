@@ -1,6 +1,6 @@
 from unittest import TestCase, main
 
-from blockhelper import block_to_block_type
+from blockhelper import block_to_block_type, paragraph_block_to_node
 from convert import markdown_to_blocks
 
 markdown = '''
@@ -95,6 +95,9 @@ class TestBlockHelper(TestCase):
         types = zip(expected_types, actual_types)
         all_types_are_equal = all(expected_type == actual_type for expected_type, actual_type in types)
         self.assertTrue(all_types_are_equal)
+    def test_paragraph_block_to_node(self):
+        paragraph_block = '[Back Home](/)'
+        self.assertEqual(paragraph_block_to_node(paragraph_block).to_html(), '<p><a href="/">Back Home</a></p>')
 
 if __name__ == '__main__':
     main()

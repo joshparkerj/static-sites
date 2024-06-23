@@ -9,7 +9,7 @@ def extract_markdown_images(text):
     return images
 
 def extract_markdown_links(text):
-    link_re = r'[^!](\[(?P<a_text>[^\]]*)\]\((?P<href>[^\)]*)\))'
-    links = [{ 'a_text': m.group('a_text'), 'href': m.group('href'), 'md': m.group(1) } for m in finditer(link_re, text)]
+    link_re = r'(?m)(^|[^!])(\[(?P<a_text>[^\]]*)\]\((?P<href>[^\)]*)\))'
+    links = [{ 'a_text': m.group('a_text'), 'href': m.group('href'), 'md': m.group(2) } for m in finditer(link_re, text)]
     return links
 

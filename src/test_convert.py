@@ -9,6 +9,11 @@ class TestTextConvert(TestCase):
         nodes = text_to_textnodes(text)
         self.assertEqual(len(nodes), 11)
         self.assertEqual(textnodes_to_html(nodes), 'plain <b>bold</b> <i>italic</i> <code>code</code> <a href="link href">link anchor text</a> <img src="image src" alt="image alt text"></img>')
+    def test_home_link(self):
+        text = 'plain **bold** [Back Home](/)'
+        nodes = text_to_textnodes(text)
+        self.assertEqual(len(nodes), 5)
+        self.assertEqual(textnodes_to_html(nodes), 'plain <b>bold</b> <a href="/">Back Home</a>')
     def test_empty_text_to_textnodes(self):
         text = ''
         nodes = text_to_textnodes(text)

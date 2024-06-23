@@ -56,5 +56,6 @@ def ordered_list_block_to_node(block):
     return ParentNode(list_items, 'ol')
 
 def paragraph_block_to_node(block):
-    return ParentNode(text_to_html_nodes(block), 'p')
+    html_nodes = text_to_html_nodes(block)
+    return ParentNode(html_nodes, 'p')
 
