@@ -1,6 +1,6 @@
 from re import sub
-from os.path import dirname
-from os import makedirs
+from os.path import dirname, join, isfile
+from os import makedirs, listdir
 
 from markdownhelper import markdown_to_html_node, extract_title
 
@@ -18,4 +18,13 @@ def generate_page(from_path, template_path, dest_path):
     makedirs(dirname(dest_path), exist_ok=True)
     with open(dest_path, 'w') as f:
         f.write(titled_template_with_content)
+
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+    for e in listdir(dir_path_content):
+        src_path = join(dir_path_content, e)
+        dst_path = join(dest_dir_path, e)
+        if isfile(src_path) and src_path.endswith('.md'):
+            generate_page(src_path, template_path, sub(r'(?m)\.md$', '.html', dst_path))
+        else:
+            generate_pages_recursive(src_path, template_path, dst_path)
 
