@@ -1,5 +1,6 @@
 from unittest import TestCase, main
 
+from convert import textnodes_to_html
 from textnode import TextNode
 
 text = 'This is a text node'
@@ -54,7 +55,7 @@ class TestTextNode(TestCase):
   node = TextNode('this is text', 'text')
   splitted = node.split_on_delimiter('*', 'bold')
   self.assertEqual(len(splitted), 1)
-  self.assertEqual(''.join(x.to_html_node().to_html() for x in splitted), 'this is text')
+  self.assertEqual(textnodes_to_html(splitted), 'this is text')
  def test_split_bold_one(self):
      node = TextNode('this is *text', 'text')
      self.assertRaises(Exception, node.split_on_delimiter, '*', 'bold')
@@ -62,17 +63,17 @@ class TestTextNode(TestCase):
      node = TextNode('this is *text*', 'text')
      splitted = node.split_on_delimiter('*', 'bold')
      self.assertEqual(len(splitted), 3)
-     self.assertEqual(''.join(x.to_html_node().to_html() for x in splitted), 'this is <b>text</b>')
+     self.assertEqual(textnodes_to_html(splitted), 'this is <b>text</b>')
  def test_split_bold_two_mid(self):
      node = TextNode('this *is* text', 'text')
      splitted = node.split_on_delimiter('*', 'bold')
      self.assertEqual(len(splitted), 3)
-     self.assertEqual(''.join(x.to_html_node().to_html() for x in splitted), 'this <b>is</b> text')
+     self.assertEqual(textnodes_to_html(splitted), 'this <b>is</b> text')
  def test_split_bold_two_start(self):
      node = TextNode('*this is* text', 'text')
      splitted = node.split_on_delimiter('*', 'bold')
      self.assertEqual(len(splitted), 3)
-     self.assertEqual(''.join(x.to_html_node().to_html() for x in splitted), '<b>this is</b> text')
+     self.assertEqual(textnodes_to_html(splitted), '<b>this is</b> text')
  def test_split_bold_three(self):
      node = TextNode('this *is *text*', 'text')
      self.assertRaises(Exception, node.split_on_delimiter, '*', 'bold')
@@ -80,37 +81,37 @@ class TestTextNode(TestCase):
      node = TextNode('th*is* is *te*xt', 'text')
      splitted = node.split_on_delimiter('*', 'bold')
      self.assertEqual(len(splitted), 5)
-     self.assertEqual(''.join(x.to_html_node().to_html() for x in splitted), 'th<b>is</b> is <b>te</b>xt')
+     self.assertEqual(textnodes_to_html(splitted), 'th<b>is</b> is <b>te</b>xt')
  def test_split_italic_six(self):
      node = TextNode('this **is** my **very** elegant **text!**', 'text')
      splitted = node.split_on_delimiter('**', 'italic')
      self.assertEqual(len(splitted), 7)
-     self.assertEqual(''.join(x.to_html_node().to_html() for x in splitted), 'this <i>is</i> my <i>very</i> elegant <i>text!</i>')
+     self.assertEqual(textnodes_to_html(splitted), 'this <i>is</i> my <i>very</i> elegant <i>text!</i>')
  def test_split_code_four(self):
      node = TextNode('`this is code can\'t you tell?` now here is my non-code prose... `(code again)`', 'text')
      splitted = node.split_on_delimiter('`', 'code')
      self.assertEqual(len(splitted), 5)
-     self.assertEqual(''.join(x.to_html_node().to_html() for x in splitted), '<code>this is code can\'t you tell?</code> now here is my non-code prose... <code>(code again)</code>')
+     self.assertEqual(textnodes_to_html(splitted), '<code>this is code can\'t you tell?</code> now here is my non-code prose... <code>(code again)</code>')
  # now testing link and image split
  def test_split_image(self):
      node = TextNode('hi view this pls ![my image (very cool)](https://i.co/img02.jpg) **that\'s it!**', 'text')
      splitted = node.split_image()
      self.assertEqual(len(splitted), 3)
      # NOTE: I am putting src before alt
-     self.assertEqual(''.join(x.to_html_node().to_html() for x in splitted), 'hi view this pls <img src="https://i.co/img02.jpg" alt="my image (very cool)"></img> **that\'s it!**')
+     self.assertEqual(textnodes_to_html(splitted), 'hi view this pls <img src="https://i.co/img02.jpg" alt="my image (very cool)"></img> **that\'s it!**')
  def test_split_link(self):
      node = TextNode('hi this is where you must click: [click me click me click me](https://j.io/save-dl.exe) **thank you so much!**', 'text')
      splitted = node.split_link()
      self.assertEqual(len(splitted), 3)
-     self.assertEqual(''.join(x.to_html_node().to_html() for x in splitted), 'hi this is where you must click: <a href="https://j.io/save-dl.exe">click me click me click me</a> **thank you so much!**')
+     self.assertEqual(textnodes_to_html(splitted), 'hi this is where you must click: <a href="https://j.io/save-dl.exe">click me click me click me</a> **thank you so much!**')
  def test_split_no_image_no_link(self):
      node = TextNode('nobody here but us words', 'text')
      splitted = node.split_image()
      self.assertEqual(len(splitted), 1)
-     self.assertEqual(''.join(x.to_html_node().to_html() for x in splitted), 'nobody here but us words')
+     self.assertEqual(textnodes_to_html(splitted), 'nobody here but us words')
      link_splitted = node.split_link()
      self.assertEqual(len(link_splitted), 1)
-     self.assertEqual(''.join(x.to_html_node().to_html() for x in link_splitted), 'nobody here but us words')
+     self.assertEqual(textnodes_to_html(link_splitted), 'nobody here but us words')
  
 if __name__ == '__main__':
  main()
