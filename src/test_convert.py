@@ -5,7 +5,7 @@ from convert import text_to_textnodes, textnodes_to_html, markdown_to_blocks
 
 class TestTextConvert(TestCase):
     def test_each_type_to_textnodes(self):
-        text = 'plain *bold* **italic** `code` [link anchor text](link href) ![image alt text](image src)'
+        text = 'plain **bold** *italic* `code` [link anchor text](link href) ![image alt text](image src)'
         nodes = text_to_textnodes(text)
         self.assertEqual(len(nodes), 11)
         self.assertEqual(textnodes_to_html(nodes), 'plain <b>bold</b> <i>italic</i> <code>code</code> <a href="link href">link anchor text</a> <img src="image src" alt="image alt text"></img>')

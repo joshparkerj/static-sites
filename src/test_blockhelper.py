@@ -3,9 +3,7 @@ from unittest import TestCase, main
 from blockhelper import block_to_block_type
 from convert import markdown_to_blocks
 
-class TestBlockHelper(TestCase):
-    def test_block_to_block_type(self):
-        markdown = '''
+markdown = '''
         # This is a heading
 
 This is a paragraph of text. It has some **bold** and *italic* words inside of it.
@@ -88,6 +86,8 @@ a
 p
 h
         '''
+class TestBlockHelper(TestCase):
+    def test_block_to_block_type(self):
         blocks = markdown_to_blocks(markdown)
         self.assertEqual(len(blocks), 14)
         expected_types = ['heading', 'paragraph', 'ordered_list', 'paragraph', 'heading', 'paragraph', 'unordered_list', 'paragraph', 'paragraph', 'unordered_list', 'unordered_list', 'unordered_list', 'code', 'paragraph']
