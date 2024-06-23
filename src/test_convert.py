@@ -37,7 +37,6 @@ This is the same paragraph on a new line
 * with items
         '''
         blocks = markdown_to_blocks(text)
-        print(blocks)
         self.assertEqual(len(blocks), 6)
         self.assertTrue(all(fullmatch(r'(?s)\S.*\S', block) for block in blocks))
 
