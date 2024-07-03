@@ -8,8 +8,10 @@ def text_to_textnodes(text):
     image_splitted = split_nodes_image(link_splitted)
     code_splitted = split_nodes_delimiter(image_splitted, '`', 'code')
     bold_splitted = split_nodes_delimiter(code_splitted, '**', 'bold')
-    italic_splitted = split_nodes_delimiter(bold_splitted, '*', 'italic')
-    return italic_splitted 
+    bold_resplitted = split_nodes_delimiter(bold_splitted, '__', 'bold')
+    italic_splitted = split_nodes_delimiter(bold_resplitted, '*', 'italic')
+    italic_resplitted = split_nodes_delimiter(italic_splitted, '_', 'italic')
+    return italic_resplitted 
 
 def text_to_html_nodes(text):
     return textnodes_to_html_nodes(text_to_textnodes(text))

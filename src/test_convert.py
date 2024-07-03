@@ -44,6 +44,11 @@ This is the same paragraph on a new line
         blocks = markdown_to_blocks(text)
         self.assertEqual(len(blocks), 6)
         self.assertTrue(all(fullmatch(r'(?s)\S.*\S', block) for block in blocks))
+    def test_link_with_underscore(self):
+        text = 'look at this link [(it has an underscore in it)](https://lotr.fandom.com/wiki/Main_Page)'
+        textnodes = text_to_textnodes(text)
+        self.assertEqual(len(textnodes), 3)
+        self.assertEqual(textnodes_to_html(textnodes), 'look at this link <a href="https://lotr.fandom.com/wiki/Main_Page">(it has an underscore in it)</a>')
 
 if __name__ == '__main__':
     main()
