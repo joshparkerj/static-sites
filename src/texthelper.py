@@ -1,7 +1,5 @@
 from re import finditer
 
-from textnodehelper import split_nodes_delimiter, split_nodes_image, split_nodes_link
-
 def extract_markdown_images(text):
     alt_re = r'!\[(?P<alt>[^\]]*)\]'
     src_re = r'\((?P<src>[^\)]*)\)'

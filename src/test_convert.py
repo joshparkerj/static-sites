@@ -50,5 +50,18 @@ This is the same paragraph on a new line
         self.assertEqual(len(textnodes), 3)
         self.assertEqual(textnodes_to_html(textnodes), 'look at this link <a href="https://lotr.fandom.com/wiki/Main_Page">(it has an underscore in it)</a>')
 
+    def test_emphasized_link(self):
+        text = 'look at this link *(it is italicized) [here it is!](href)*'
+        textnodes = text_to_textnodes(text)
+        self.assertEqual(len(textnodes), 3)
+        self.assertEqual(textnodes_to_html(textnodes), 'look at this link <i>(it is italicized) <a href="href">here it is!</a></i>')
+
+    def test_link_with_emphasis(self):
+        text = '[I am a link with an *emphasized* word](href)'
+        text_nodes = text_to_textnodes(text)
+        self.assertEqual(len(text_nodes), 3)
+        self.assertEqual(textnodes_to_html(text_nodes), '<a href="href">I am a link with an <i>emphasized</i> word</a>')
+
+
 if __name__ == '__main__':
     main()
