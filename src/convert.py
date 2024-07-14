@@ -33,5 +33,7 @@ def textnodes_to_html(text_nodes):
     return ''.join(x.to_html() for x in textnodes_to_html_nodes(text_nodes))
 
 def markdown_to_blocks(markdown):
+    # handling headings as a special case for now
+    markdown = sub(r'(?m)(^\s*#{1,6})', r'\n\1', markdown)
     return [sub(r'(?m)^\s+', '', block) for block in split(r'\s*\n\s*\n\s*', markdown.strip())]
     

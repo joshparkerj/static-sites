@@ -102,19 +102,37 @@ expected_html = ('<div><h1>This is a heading</h1>'
 +'<p>a - \ns\ni\nn\ng\nl\ne - \np\na\nr\na\ng\nr\na\np\nh</p></div>')
 
 
-
 class TestMarkdownHelper(TestCase):
     def test_markdown_to_html_node(self):
         node = markdown_to_html_node(markdown)
         self.maxDiff = None
         self.assertEqual(node.to_html(), expected_html)
+
     def test_paragraph_link(self):
         node = markdown_to_html_node('[Back Home](/)')
-        self.assertEqual(node.to_html(), '<div><p><a href="/">Back Home</a></p></div>')
+        self.assertEqual(
+                node.to_html(),
+                '<div><p><a href="/">Back Home</a></p></div>')
+
     def test_extract_title(self):
         self.assertEqual(extract_title(markdown), 'This is a heading')
+
     def test_no_title(self):
         self.assertRaises(Exception, extract_title, '')
+
+    def test_headings(self):
+        headings = '\n# First Heading\n\n## Sub Heading\n'
+        node = markdown_to_html_node(headings)
+        self.assertEqual(
+                node.to_html(),
+                '<div><h1>First Heading</h1><h2>Sub Heading</h2></div>')
+
+    def test_more_headings(self):
+        headings = '# First Heading\n## Sub Heading'
+        node = markdown_to_html_node(headings)
+        self.assertEqual(
+                node.to_html(),
+                '<div><h1>First Heading</h1><h2>Sub Heading</h2></div>')
 
 
 if __name__ == '__main__':
