@@ -3,7 +3,7 @@ from unittest import TestCase, main
 from blockhelper import block_to_block_type, paragraph_block_to_node
 from convert import markdown_to_blocks
 
-markdown = '''
+markdown = """
         # This is a heading
 
 This is a paragraph of text. It has some **bold** and *italic* words inside.
@@ -85,7 +85,7 @@ r
 a
 p
 h
-        '''
+        """
 
 
 class TestBlockHelper(TestCase):
@@ -93,37 +93,82 @@ class TestBlockHelper(TestCase):
         blocks = markdown_to_blocks(markdown)
         self.assertEqual(len(blocks), 14)
         expected_types = [
-                'heading',
-                'paragraph',
-                'ordered_list',
-                'paragraph',
-                'heading',
-                'paragraph',
-                'unordered_list',
-                'paragraph',
-                'paragraph',
-                'unordered_list',
-                'unordered_list',
-                'unordered_list',
-                'code',
-                'paragraph']
+            "heading",
+            "paragraph",
+            "ordered_list",
+            "paragraph",
+            "heading",
+            "paragraph",
+            "unordered_list",
+            "paragraph",
+            "paragraph",
+            "unordered_list",
+            "unordered_list",
+            "unordered_list",
+            "code",
+            "paragraph",
+        ]
         actual_types = [block_to_block_type(block) for block in blocks]
         types = zip(expected_types, actual_types)
         all_types_are_equal = all(
-                expected_type == actual_type
-                for expected_type, actual_type in types)
+            expected_type == actual_type for expected_type, actual_type in types
+        )
         self.assertTrue(all_types_are_equal)
 
     def test_paragraph_block_to_node(self):
-        paragraph_block = '[Back Home](/)'
+        paragraph_block = "[Back Home](/)"
         self.assertEqual(
-                paragraph_block_to_node(paragraph_block).to_html(),
-                '<p><a href="/">Back Home</a></p>')
+            paragraph_block_to_node(paragraph_block).to_html(),
+            '<p><a href="/">Back Home</a></p>',
+        )
 
     def test_headings(self):
-        headings = '\n# First Heading\n\n## Sub Heading\n'
+        headings = "\n# First Heading\n\n## Sub Heading\n"
         self.assertEqual(len(markdown_to_blocks(headings)), 2)
 
+    def test_markdown_to_blocks(self):
+        md = """
+This is **bolded** paragraph
 
-if __name__ == '__main__':
+This is another paragraph with *italic* text and `code` here
+This is the same paragraph on a new line
+
+* This is a list
+* with items
+"""
+        blocks = markdown_to_blocks(md)
+        self.assertEqual(
+            blocks,
+            [
+                "This is **bolded** paragraph",
+                "This is another paragraph with *italic* text and `code` here\nThis is the same paragraph on a new line",
+                "* This is a list\n* with items",
+            ],
+        )
+
+    def test_markdown_to_blocks_newlines(self):
+        md = """
+This is **bolded** paragraph
+
+
+
+
+This is another paragraph with *italic* text and `code` here
+This is the same paragraph on a new line
+
+* This is a list
+* with items
+"""
+        blocks = markdown_to_blocks(md)
+        self.assertEqual(
+            blocks,
+            [
+                "This is **bolded** paragraph",
+                "This is another paragraph with *italic* text and `code` here\nThis is the same paragraph on a new line",
+                "* This is a list\n* with items",
+            ],
+        )
+
+
+if __name__ == "__main__":
     main()
