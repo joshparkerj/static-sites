@@ -43,10 +43,20 @@ class TestTextNode(TestCase):
     def test_plain_text(self):
         node = TextNode("this is a text node", "text")
         self.assertEqual(node.to_html_node().to_html(), "this is a text node")
+    
+    def test_plain_text_no_tag(self):
+        node = TextNode("this is a text node", "text")
+        self.assertEqual(node.to_html_node().tag, None)
 
     def test_bold_text(self):
         node = TextNode("this is a bold node", "bold")
         self.assertEqual(node.to_html_node().to_html(), "<b>this is a bold node</b>")
+    
+    def test_bold_node(self):
+        node = TextNode("This is a bold node", "bold")
+        html_node = node.to_html_node()
+        self.assertEqual(html_node.tag, "b")
+        self.assertEqual(html_node.value, "This is a bold node")
 
     def test_italic_text(self):
         node = TextNode("this is an italicized node", "italic")
@@ -77,6 +87,17 @@ class TestTextNode(TestCase):
             node.to_html_node().to_html(),
             '<img src="https://www.crummy.com/software/BeautifulSoup/10.1.jpg" alt="this is an image"></img>',
         )
+    
+    def test_image_node(self):
+        node = TextNode(
+            "This is an image",
+            "image",
+            "http://localhost:8888/images/rivendell.png",
+        )
+        html_node = node.to_html_node()
+        self.assertEqual(html_node.tag, "img")
+        self.assertEqual(html_node.value, "")
+        self.assertEqual(html_node.props, {"src": "http://localhost:8888/images/rivendell.png", "alt": "This is an image"})
 
     def invalid_type(self):
         node = TextNode("this is a div", "div")
