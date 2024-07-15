@@ -15,19 +15,23 @@ def split_nodes_delimiter(old_nodes: list[TextNode], delimiter, text_type):
         nodes_to_split = (
             (node, i)
             for i, node in enumerate(old_nodes)
-            if countOf(node.text, delimiter) % 2 == 1
+            if isinstance(node.text, str) and countOf(node.text, delimiter) % 2 == 1
         )
         first_node_to_split, first_idx = next(nodes_to_split)
-        second_node_to_split, second_idx = next(nodes_to_split)
+        second_node_to_split, second_idx = next(
+            (node, i)
+            for i, node in enumerate(old_nodes)
+            if i > first_idx and delimiter in node.text
+        )
         first_split = first_node_to_split.text.split(delimiter)
-        second_split = second_node_to_split.text.split(delimiter)
+        second_split = second_node_to_split.text.split(delimiter, 1)
         first_type = first_node_to_split.text_type
         second_type = second_node_to_split.text_type
         first_url = first_node_to_split.url
         second_url = second_node_to_split.url
         return split_nodes_delimiter(
             old_nodes[:first_idx]
-            + [TextNode(text, first_type, first_url) for text in first_split[:-1]]
+            + [TextNode(text, first_type if i % 2 == 0 else text_type, first_url) for i, text in enumerate(first_split[:-1])]
             + [
                 TextNode(
                     [TextNode(first_split[-1], first_type, first_url)]

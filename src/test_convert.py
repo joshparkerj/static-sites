@@ -130,6 +130,15 @@ This is the same paragraph on a new line
             nodes,
         )
 
+    def test_tricky_nesting(self):
+        text = "a *b **c** d* e *f* g *h **i** j* k"
+        text_nodes = text_to_textnodes(text)
+        self.assertEqual(len(text_nodes), 7)
+        self.assertEqual(
+            textnodes_to_html(text_nodes),
+            "a <i>b <b>c</b> d</i> e <i>f</i> g <i>h <b>i</b> j</i> k"
+        )
+
 
 if __name__ == "__main__":
     main()
