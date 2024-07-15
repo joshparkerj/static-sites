@@ -89,24 +89,25 @@ h
 expected_html = ('<div><h1>This is a heading</h1>'
 +'<p>This is a paragraph of text. It has some <b>bold</b> and <i>italic</i> words inside of it.</p>'
 +'<ol><li>correct ordered list</li><li>correct ordered list</li><li>correct ordered list</li><li>correct ordered list</li><li>correct ordered list</li><li>correct ordered list</li><li>correct ordered list</li><li>correct ordered list</li><li>correct ordered list</li></ol>'
-+'<p>1. invalid ordered list (according to strict rules described at https://www.boot.dev/lessons/719ee1ae-19b6-4572-9b40-c8530dcbfa4f\n1. (this is usually allowed i think)\n1. but not this time!\n1. (we can always go back and change it later I suppose)</p>'
++'<p>1. invalid ordered list (according to strict rules described at https://www.boot.dev/lessons/719ee1ae-19b6-4572-9b40-c8530dcbfa4f 1. (this is usually allowed i think) 1. but not this time! 1. (we can always go back and change it later I suppose)</p>'
 +'<h2>leading spaces should be ignored</h2>'
 +'<p>####### too many hashes will get this interpreted as a paragraph, not heading</p>'
 +'<ul><li>This is a list item</li><li>This is another list item</li></ul>'
 +'<p>This is <b>bolded</b> paragraph</p>'
-                 +'<p>This is another paragraph with <i>italic</i> text and <code>code</code> here\nThis is the same paragraph on a new line</p>'
+                 +'<p>This is another paragraph with <i>italic</i> text and <code>code</code> here This is the same paragraph on a new line</p>'
 +'<ul><li>This is a list</li><li>with items</li></ul>'
 +'<ul><li>list using dashes</li><li>(should be treated the same as stars)</li><li>and they can be mixed:</li></ul>'
 +'<ul><li>mixed dashes and stars in this list</li><li>we can alternate</li><li>or whatever</li><li>more list</li><li>more list</li><li>more list</li><li>more list</li><li>more list</li><li>more list</li><li>more list</li><li>more list</li><li>more list</li><li>more list</li><li>more list</li><li>more list</li></ul>'
 +'<pre><code>this is code\nthis is code\nthis is code\nthis is code\nthis is code\nthis is code\nthis is code</code></pre>'
-+'<p>a - \ns\ni\nn\ng\nl\ne - \np\na\nr\na\ng\nr\na\np\nh</p></div>')
++'<p>a - s i n g l e - p a r a g r a p h</p></div>')
 
 
 class TestMarkdownHelper(TestCase):
     def test_markdown_to_html_node(self):
         node = markdown_to_html_node(markdown)
         self.maxDiff = None
-        self.assertEqual(node.to_html(), expected_html)
+        actual_html = node.to_html()
+        self.assertEqual(actual_html, expected_html)
 
     def test_paragraph_link(self):
         node = markdown_to_html_node('[Back Home](/)')

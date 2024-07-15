@@ -34,12 +34,12 @@ def text_to_textnodes(text):
     return italic_resplitted
 
 
-def text_to_html_nodes(text):
-    return textnodes_to_html_nodes(text_to_textnodes(text))
+def text_to_html_nodes(text, in_code=False):
+    return textnodes_to_html_nodes(text_to_textnodes(text), in_code)
 
 
-def textnodes_to_html_nodes(text_nodes):
-    return [x.to_html_node() for x in text_nodes]
+def textnodes_to_html_nodes(text_nodes, in_code=False):
+    return [x.to_html_node(in_code) for x in text_nodes]
 
 
 def textnodes_to_html(text_nodes):

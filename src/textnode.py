@@ -20,21 +20,23 @@ class TextNode:
     def __repr__(self):
         return f"TextNode({self.text}, {self.text_type}, {self.url})"
 
-    def to_html_node(self):
+    def to_html_node(self, in_code=False):
         if self.text_type not in self.valid_types:
             raise Exception(f"invalid type! valid types are: {self.valid_types}")
         if self.text_type == "text":
-            return LeafNode(self.text)
+            return LeafNode(self.text, in_code=in_code)
         if self.text_type == "bold":
-            return LeafNode(self.text, "b")
+            return LeafNode(self.text, "b", in_code=in_code)
         if self.text_type == "italic":
-            return LeafNode(self.text, "i")
+            return LeafNode(self.text, "i", in_code=in_code)
         if self.text_type == "code":
-            return LeafNode(self.text, "code")
+            return LeafNode(self.text, "code", in_code=in_code)
         if self.text_type == "link":
-            return LeafNode(self.text, "a", {"href": self.url})
+            return LeafNode(self.text, "a", {"href": self.url}, in_code=in_code)
         if self.text_type == "image":
-            return LeafNode("", "img", {"src": self.url, "alt": self.text})
+            return LeafNode(
+                "", "img", {"src": self.url, "alt": self.text}, in_code=in_code
+            )
 
     def split_on_delimiter(self, delimiter, text_type):
         if self.text_type != "text":
@@ -78,7 +80,9 @@ class TextNode:
             new_nodes = []
             if texts[0] != "":
                 new_nodes.append(TextNode(texts[0], "text"))
-            new_nodes.append(TextNode(markdown_link["a_text"], "link", markdown_link["href"]))
+            new_nodes.append(
+                TextNode(markdown_link["a_text"], "link", markdown_link["href"])
+            )
             if texts[1] != "":
                 new_nodes.append(TextNode(texts[1], "text"))
             nodes += new_nodes
