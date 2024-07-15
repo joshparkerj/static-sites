@@ -1,6 +1,32 @@
-# Why Frontend Development Sucks
-## Front-end Development is the Worst
+# Tolkien Fan Club
 
-Look, front-end development is for script kiddies and soydevs who can't handle the real programming. I mean, it's just a bunch of divs and spans, right? And css??? It's like, "Oh, I want this to be red, but not thaaaaat red." What a joke.
+**I like Tolkien**. Read my [first post here](/majesty) 
 
-Real programmers code, not silly markup languages. They use Arch Linux, not Mac OS, and certainly not Windows. They use Vim, not VS Code. They use C, not HTML. Come to the [backend](https://www.boot.dev) where the real programming happens.
+> All that is gold does not glitter
+
+## Reasons I like Tolkien
+
+* You can spend years studying the legendarium and still not understand its depths
+* It can be enjoyed by children and adults alike
+* Disney *didn't ruin it*
+* It created an entirely new genre of fantasy
+
+## My favorite characters (in order)
+
+1. Gandalf
+2. Bilbo
+3. Sam
+4. Glorfindel
+5. Galadriel
+6. Elrond
+7. Thorin
+8. Sauron
+9. Aragorn
+
+Here's what `elflang` looks like (the perfect coding language):
+
+```
+func main(){
+    fmt.Println("Hello, World!")
+}
+```

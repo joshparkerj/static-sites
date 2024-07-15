@@ -87,6 +87,24 @@ This is the same paragraph on a new line
             textnodes_to_html(text_nodes),
             '<a href="href">I am a link with an <i>emphasized</i> word</a>',
         )
+    
+    def test_emphasis_with_strong(self):
+        text = "I am *emphasized and there is **strong text** inside of me!*"
+        text_nodes = text_to_textnodes(text)
+        self.assertEqual(len(text_nodes), 2)
+        self.assertEqual(
+            textnodes_to_html(text_nodes),
+            'I am <i>emphasized and there is <b>strong text</b> inside of me!</i>'
+        )
+    
+    def test_link_with_emphasis_with_strong(self):
+        text = "I am going to place a link: [the link text has *emphasis and even **more emphatic** emphasis* inside](bug.co) cheers!"
+        text_nodes = text_to_textnodes(text)
+        self.assertEqual(len(text_nodes), 3)
+        self.assertEqual(
+            textnodes_to_html(text_nodes),
+            "I am going to place a link: <a href=\"bug.co\">the link text has <i>emphasis and even <b>more emphatic</b> emphasis</i> inside</a> cheers!"
+        )
 
     def test_text_to_textnodes(self):
         nodes = text_to_textnodes(
