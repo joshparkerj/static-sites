@@ -37,9 +37,7 @@ class TestTextNode(TestCase):
     def test_repr(self):
         url = "http://localhost:8888/lotr-blog/"
         node = TextNode(text, text_type, url)
-        self.assertEqual(
-                repr(node),
-                f'TextNode({text}, {text_type}, {url})')
+        self.assertEqual(repr(node), f"TextNode({text}, {text_type}, {url})")
 
     # Now testing the to_html method
     def test_plain_text(self):
