@@ -105,6 +105,10 @@ This is the same paragraph on a new line
             textnodes_to_html(text_nodes),
             'I am going to place a link: <a href="bug.co">the link text has <i>emphasis and even <b>more emphatic</b> emphasis</i> inside</a> cheers!',
         )
+    
+    def test_invalid_markdown(self):
+        text = "**an *example* text** of bad markdown**"
+        self.assertRaises(Exception, text_to_textnodes, text)
 
     def test_text_to_textnodes(self):
         nodes = text_to_textnodes(

@@ -5,9 +5,9 @@ from texthelper import extract_markdown_images, extract_markdown_links
 
 class TextNode:
     def __init__(self, text, text_type, url=None):
-        self.text = text
-        self.text_type = text_type
-        self.url = url
+        self.text: str = text
+        self.text_type: str = text_type
+        self.url: str = url
         self.valid_types = ("text", "bold", "italic", "code", "link", "image")
 
     def __eq__(self, other):
