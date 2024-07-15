@@ -43,7 +43,7 @@ class TestTextNode(TestCase):
     def test_plain_text(self):
         node = TextNode("this is a text node", "text")
         self.assertEqual(node.to_html_node().to_html(), "this is a text node")
-    
+
     def test_plain_text_no_tag(self):
         node = TextNode("this is a text node", "text")
         self.assertEqual(node.to_html_node().tag, None)
@@ -51,7 +51,7 @@ class TestTextNode(TestCase):
     def test_bold_text(self):
         node = TextNode("this is a bold node", "bold")
         self.assertEqual(node.to_html_node().to_html(), "<b>this is a bold node</b>")
-    
+
     def test_bold_node(self):
         node = TextNode("This is a bold node", "bold")
         html_node = node.to_html_node()
@@ -87,7 +87,7 @@ class TestTextNode(TestCase):
             node.to_html_node().to_html(),
             '<img src="https://www.crummy.com/software/BeautifulSoup/10.1.jpg" alt="this is an image"></img>',
         )
-    
+
     def test_image_node(self):
         node = TextNode(
             "This is an image",
@@ -97,7 +97,13 @@ class TestTextNode(TestCase):
         html_node = node.to_html_node()
         self.assertEqual(html_node.tag, "img")
         self.assertEqual(html_node.value, "")
-        self.assertEqual(html_node.props, {"src": "http://localhost:8888/images/rivendell.png", "alt": "This is an image"})
+        self.assertEqual(
+            html_node.props,
+            {
+                "src": "http://localhost:8888/images/rivendell.png",
+                "alt": "This is an image",
+            },
+        )
 
     def invalid_type(self):
         node = TextNode("this is a div", "div")
@@ -117,7 +123,7 @@ class TestTextNode(TestCase):
     def test_split_bold_two_edge(self):
         node = TextNode("this is *text*", "text")
         splitted = node.split_on_delimiter("*", "bold")
-        self.assertEqual(len(splitted), 3)
+        self.assertEqual(len(splitted), 2)
         self.assertEqual(textnodes_to_html(splitted), "this is <b>text</b>")
 
     def test_split_bold_two_mid(self):
@@ -129,7 +135,7 @@ class TestTextNode(TestCase):
     def test_split_bold_two_start(self):
         node = TextNode("*this is* text", "text")
         splitted = node.split_on_delimiter("*", "bold")
-        self.assertEqual(len(splitted), 3)
+        self.assertEqual(len(splitted), 2)
         self.assertEqual(textnodes_to_html(splitted), "<b>this is</b> text")
 
     def test_split_bold_three(self):
@@ -145,7 +151,7 @@ class TestTextNode(TestCase):
     def test_split_italic_six(self):
         node = TextNode("this **is** my **very** elegant **text!**", "text")
         splitted = node.split_on_delimiter("**", "italic")
-        self.assertEqual(len(splitted), 7)
+        self.assertEqual(len(splitted), 6)
         self.assertEqual(
             textnodes_to_html(splitted),
             "this <i>is</i> my <i>very</i> elegant <i>text!</i>",
@@ -157,7 +163,7 @@ class TestTextNode(TestCase):
             "text",
         )
         splitted = node.split_on_delimiter("`", "code")
-        self.assertEqual(len(splitted), 5)
+        self.assertEqual(len(splitted), 3)
         self.assertEqual(
             textnodes_to_html(splitted),
             "<code>this is code can't you tell?</code> now here is my non-code prose... <code>(code again)</code>",

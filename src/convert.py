@@ -25,7 +25,11 @@ def text_to_textnodes(text):
     bold_resplitted = split_nodes_delimiter(bold_splitted, "__", "bold")
     italic_splitted = split_nodes_delimiter(bold_resplitted, "*", "italic")
     italic_resplitted = split_nodes_delimiter(italic_splitted, "_", "italic")
-    if len(italic_resplitted) > 1:
+    if (
+        len(italic_resplitted) > 1
+        or len(italic_resplitted) == 1
+        and italic_resplitted[0].text_type != "text"
+    ):
         return [parentify(text_node) for text_node in italic_resplitted]
     return italic_resplitted
 

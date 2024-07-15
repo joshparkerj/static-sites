@@ -8,19 +8,19 @@ class TestTextConvert(TestCase):
     def test_each_type_to_textnodes(self):
         text = 'plain **bold** *italic* `code` [link anchor text](link href) ![image alt text](image src)'
         nodes = text_to_textnodes(text)
-        self.assertEqual(len(nodes), 11)
+        self.assertEqual(len(nodes), 10)
         self.assertEqual(textnodes_to_html(nodes), 'plain <b>bold</b> <i>italic</i> <code>code</code> <a href="link href">link anchor text</a> <img src="image src" alt="image alt text"></img>')
 
     def test_home_link(self):
         text = 'plain **bold** [Back Home](/)'
         nodes = text_to_textnodes(text)
-        self.assertEqual(len(nodes), 5)
+        self.assertEqual(len(nodes), 4)
         self.assertEqual(textnodes_to_html(nodes), 'plain <b>bold</b> <a href="/">Back Home</a>')
 
     def test_empty_text_to_textnodes(self):
         text = ''
         nodes = text_to_textnodes(text)
-        self.assertEqual(len(nodes), 1)
+        self.assertEqual(len(nodes), 0)
         self.assertEqual(textnodes_to_html(nodes), '')
 
     def test_invalid_text_to_textnodes(self):
@@ -58,19 +58,19 @@ This is the same paragraph on a new line
     def test_link_with_underscore(self):
         text = 'look at this link [(it has an underscore in it)](https://lotr.fandom.com/wiki/Main_Page)'
         textnodes = text_to_textnodes(text)
-        self.assertEqual(len(textnodes), 3)
+        self.assertEqual(len(textnodes), 2)
         self.assertEqual(textnodes_to_html(textnodes), 'look at this link <a href="https://lotr.fandom.com/wiki/Main_Page">(it has an underscore in it)</a>')
 
     def test_emphasized_link(self):
         text = 'look at this link *(it is italicized) [here it is!](href)*'
         textnodes = text_to_textnodes(text)
-        self.assertEqual(len(textnodes), 3)
+        self.assertEqual(len(textnodes), 2)
         self.assertEqual(textnodes_to_html(textnodes), 'look at this link <i>(it is italicized) <a href="href">here it is!</a></i>')
 
     def test_link_with_emphasis(self):
         text = '[I am a link with an *emphasized* word](href)'
         text_nodes = text_to_textnodes(text)
-        self.assertEqual(len(text_nodes), 3)
+        self.assertEqual(len(text_nodes), 1)
         self.assertEqual(textnodes_to_html(text_nodes), '<a href="href">I am a link with an <i>emphasized</i> word</a>')
 
 

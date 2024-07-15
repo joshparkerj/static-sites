@@ -40,7 +40,7 @@ class TextNode:
      nodes = self.text.split(delimiter)
      if len(nodes) % 2 != 1:
          raise Exception('invalid Markdown syntax')
-     return [TextNode(node, 'text' if i % 2 == 0 else text_type) for i, node in enumerate(nodes)]
+     return [TextNode(node, 'text' if i % 2 == 0 else text_type) for i, node in enumerate(nodes) if i % 2 != 0 or node != ""]
 
  def split_image(self):
      if self.text_type != 'text':
